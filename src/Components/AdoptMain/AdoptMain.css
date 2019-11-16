@@ -1,0 +1,24 @@
+.AdoptMain__img {
+  max-height: 60vh;
+}
+
+.photoButtonsContainer {
+  display: flex;
+  align-content: center;
+}
+
+button {
+  background: none;
+  border: white !important;
+  margin: 0 2rem;
+  font-size: 4rem
+}
+
+@media screen and (min-width: 425px) {
+ 
+  .AdoptMain__body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+}

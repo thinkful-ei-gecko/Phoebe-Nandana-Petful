@@ -1,0 +1,44 @@
+/* .photoLink .dog {
+  background: url('%PUBLIC_URL%/Photo-by-Oleg-Ivanov-on-Unsplash.jpg');
+}
+
+.photoLink .cat {
+  background: url('%PUBLIC_URL%/Photo-by-Oleg-Ivanov-on-Unsplash');
+} */
+
+.photoLink {
+  min-height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  text-emphasis: outline;
+  opacity: 0.5;
+  margin: 0.5rem 0;
+}
+
+.dog {
+  background: center/100% url('./Photo-by-nrd-on-Unsplash.jpg');
+}
+
+.cat {
+  background: center/100% url('./Photo-by-Oleg-Ivanov-on-Unsplash.jpg');
+}
+
+.photoLink:hover {
+  opacity: 0.9;
+}
+/* resize so they fit in two boxes */
+/* @media screen and (min-width: 425 px) { 
+  .HomeMain__div.photoLink {
+    max-width: 300px;
+  }
+  
+  .LinkContainer {
+    max-width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }   
+} */

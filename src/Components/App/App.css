@@ -1,0 +1,79 @@
+* {
+  font-family: 'Karla', sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+p, label, input, li, ol {
+  text-align: left;
+}
+
+.App__main {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+}
+
+nav {
+  background-color: black;
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  position: sticky;
+  top: 0px;
+}
+
+nav > a {
+  color: white;
+  text-decoration: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  border: .5px darkgray solid;
+  border-radius: 5px;
+  background-color: #FCFCF9;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem 0;
+}
+
+form > * {
+  padding: .5rem;
+}
+
+form > h3 {
+  margin: 0;
+}
+
+img {
+  max-width: 80vw;
+}
+
+button {
+  border: .5px solid;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+@media screen and (min-width: 425px) {
+  .App__main {
+    max-width: 600px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .App__main {
+    max-width: 750px;
+  }
+  nav {
+    padding: 0 calc((100vw - 900px)/2);
+  }
+}
