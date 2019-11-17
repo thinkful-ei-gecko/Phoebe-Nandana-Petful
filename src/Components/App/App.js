@@ -5,6 +5,7 @@ import ApiContext from "../../Contexts/ApiContext";
 //import dogList from '../../dogStore';
 import DefaultMain from "../DefaultMain/DefaultMain";
 import AdoptDog from "../../Routes/AdoptDog/AdoptDog";
+import AdoptCat from "../../Routes/AdoptCat/AdoptCat";
 import DefaultNav from "../DefaultNav/DefaultNav";
 import ErrorPage from "../ErrorPage";
 import "./App.css";
@@ -70,14 +71,14 @@ export default class App extends Component {
 			.catch(err => console.log('Error', err))
 
 		//get cats
-		// fetch(`${config.API_ENDPOINT}/cats`)
-		// 	.then(res =>
-		// 		(!res.ok)
-		// 			? res.json().then(e => Promise.reject(e))
-		// 			: res.json()
-		// 	)
-		// 	.then(res => this.setState({ catList: res }))
-		// 	.catch(err => console.log('Error', err))
+		fetch(`${config.API_ENDPOINT}/cats`)
+			.then(res =>
+				(!res.ok)
+					? res.json().then(e => Promise.reject(e))
+					: res.json()
+			)
+			.then(res => this.setState({ catList: res }))
+			.catch(err => console.log('Error', err))
 	};
 
 	renderNavRoutes = () => {
@@ -93,7 +94,7 @@ export default class App extends Component {
 			<Switch>
 				<Route exact path='/' component={DefaultMain} />
 				<Route exact path='/signup' component={DefaultMain} />
-				{/* <Route path='/adopt/cat' component={AdoptCat} /> */}
+				 <Route path='/adopt/cat' component={AdoptCat} /> 
 				<Route path='/adopt/dog' component={AdoptDog} />
 				<Route component={PageNotFound} />
 			</Switch>
