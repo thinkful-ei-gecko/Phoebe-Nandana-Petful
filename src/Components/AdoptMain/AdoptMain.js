@@ -12,6 +12,7 @@ export default class AdoptMain extends Component {
 		index: 0,
 	};
 
+  //increments or decrements index of current object; loops through when gets to the end
 	changeIndex = (num) => {
 		if (!num && this.state.counter <= 1) {
 			return;
@@ -28,7 +29,7 @@ export default class AdoptMain extends Component {
 	}
 
   scheduledAdopt = () => {
-    for (let i=0; i<this.state.petList; i++) {
+    for (let i=0; i<this.props.petList; i++) {
       setTimeout(this.scheduledAdopt, 5000);
       this.handleDeletePet(this.context.petType.toLowerCase());
       this.handleDeleteHuman();
@@ -72,22 +73,18 @@ export default class AdoptMain extends Component {
   }
  
 	componentDidMount = () => {
-		this.setState({
-			petList: this.props.petList
-    });
+		// this.setState({
+		// 	petList: this.props.petList
+    // });
     this.scheduledAdopt(0);
 	}
 
 	render = () => {
-    // if(!this.state.index){
-    //   return null;
-    // }
-    console.log('$$$$',this.props.petList)
+    console.log('petList in `AdoptMain`', this.props.petList)
 		let petType = this.props.petType;
 		let index = this.state.index;
     let currPet = this.props.petList[index];
     let adoptionStatus;
-    console.log('++++++',currPet)
     //if not adopted and front of the array, return 'available'
     if (currPet.adopted && index === 0) {
       adoptionStatus = 'Available'
@@ -111,12 +108,12 @@ export default class AdoptMain extends Component {
               <h2>{petType}s for Adoption</h2>
               <div className='photoButtonsContainer'>
                 {this.state.index < 1 ? (
-                    <button className='disabled'><i class="fas fa-chevron-left"></i></button>
+                    <button className='disabled'><i className="fas fa-chevron-left"></i></button>
                   ) : (
-                    <button onClick={() => this.changeIndex(-1)}><i class="fas fa-chevron-left"></i></button>
+                    <button onClick={() => this.changeIndex(-1)}><i className="fas fa-chevron-left"></i></button>
                   )}{' '}
                 <img src={currPet.imageURL} alt={currPet.imageDescription} className='AdoptMain__img'></img>
-                <button onClick={() => this.changeIndex(1)}><i class="fas fa-chevron-right"></i></button>
+                <button onClick={() => this.changeIndex(1)}><i className="fas fa-chevron-right"></i></button>
               </div>
               <h3>{currPet.name}</h3>
 							<ul>
