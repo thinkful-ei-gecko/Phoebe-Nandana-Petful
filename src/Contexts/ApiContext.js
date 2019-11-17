@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{ Component }  from 'react';
 
-export default React.createContext({
+const ApiContext = React.createContext({
   catList: [],
   dogList: [],
   humanList: [],
-  enqueueHuman: () => {},
-  dequeue: () => {},
+  setDogList:()=>{},
+  enqueueHuman:() => {},
+  dequeue:() => {},
 })
+export default ApiContext
+

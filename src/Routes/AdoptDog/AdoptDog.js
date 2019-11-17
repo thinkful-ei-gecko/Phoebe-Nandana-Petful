@@ -8,10 +8,11 @@ export default class adoptDog extends Component {
   
   //pass list into adopt main
   render() {
-    console.log(this.context.dogList)
+    console.log('%%%%%%%',this.context.dogList)
     return (
       <>
-        <AdoptMain petType='Dog' petList={this.context.dogList} />
+      <AdoptMain petType='dogs' petList={this.context.dogList}/>
+        {/* <AdoptMain petType='Dog' petList={this.context.dogList} /> */}
       </>
     )
   }

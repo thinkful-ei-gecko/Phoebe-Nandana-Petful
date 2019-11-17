@@ -1,80 +1,81 @@
 import React, { Component } from "react";
 import { Route, Link, Switch } from 'react-router-dom';
-
+import config from '../../config'
 import ApiContext from '../../Contexts/ApiContext'
-import dogList from '../../dogStore';
+//import dogList from '../../dogStore';
 import DefaultMain from '../DefaultMain/DefaultMain';
 import AdoptDog from '../../Routes/AdoptDog/AdoptDog'
 import DefaultNav from '../DefaultNav/DefaultNav';
 import ErrorPage from '../ErrorPage';
 import './App.css'
 import PageNotFound from "../PageNotFound";
+//import AdopterApiService from '../../services/adopter-api-service'
+//import ApiContextProvider from '../../Contexts/ApiContext'
 
 export default class App extends Component {
+	static contextType = ApiContext;
 	state = {
 		catList: [],
-		dogList: dogList,
-		humanList: ['human1', 'human2', 'human3', 'human4', 'human5'],
+		dogList: [],
+		humanList: [],
 	}
 
-	enqueueHuman = name => {
+	enqueueHuman = nameArray => {
 		this.setState({
-			humanList: this.state.humanList.push(name)
+			humanList: nameArray
 		})
 	}
 
-	dequeue = listName => {
-		if (listName && listName !== 'humanList') {
-			let list = this.state.listName;
-			let dqdObj = list.shift();
-			dqdObj.adopted = true;
-			list.shift().push(dqdObj)
-			this.setState ({
-				[listName]: list
-			})
-		} else {
-			this.setState ({
-				[listName]: this.state.listName.shift()
-			})
-		}
-	} 
-
+	// dequeue = listName => {
+	// 	if (listName && listName !== 'humanList') {
+	// 		let list = this.state.listName;
+	// 		let dqdObj = list.shift();
+	// 		dqdObj.adopted = true;
+	// 		list.shift().push(dqdObj)
+	// 		this.setState ({
+	// 			[listName]: list
+	// 		})
+	// 	} else {
+	// 		this.setState ({
+	// 			[listName]: this.state.listName.shift()
+	// 		})
+	// 	}
+	//} 
+// componentDidMount(){
+// AdopterApiService.getDogList()
+// .then (res =>{
+// 	this.context.setDogList(res);
+// })
+// }
 	componentDidMount = () => {
+		console.log('***********')
 		//get humans
-		// fetch(`url/adopters`) //pbtag
+		fetch(`${config.API_ENDPOINT}/adopters`) //pbtag
+      // .then(res => {
+      //   if (!res.ok)
+      //     return res.json().then(e => Promise.reject(e));
+      // })
+			.then(res => {
+				this.setState({humanList:res.json()})
+			})
+			
+		//get dogs
+		fetch(`${config.API_ENDPOINT}/dogs`) //pbtag
+		// .then(res => 
+		// 	 (!res.ok)
+		// 		? res.json().then(e => Promise.reject(e))
+		// 		: res.json()
+		// )
+		.then(res => this.setState({dogList:res.json()}))
+
+		//get cats
+		fetch(`${config.API_ENDPOINT}/cats`) //pbtag
     //   .then(res => {
     //     if (!res.ok)
     //       return res.json().then(e => Promise.reject(e));
     //   })
-    //   .then(res => {
-    //     this.setState({
-		// 			humanList: res.json()
-		// 		})
-		// 	})
-
-		// // get dogs
-		// fetch(`url/adopters`) //pbtag
-		// .then(res => {
-		// 	if (!res.ok)
-		// 		return res.json().then(e => Promise.reject(e));
-		// })
-		// .then(res => {
-		// 	this.setState({
-		// 		dogList: res.json()
-		// 	})
-		// })
-
-		// //get cats
-		// fetch(`url/adopters`) //pbtag
-    //   .then(res => {
-    //     if (!res.ok)
-    //       return res.json().then(e => Promise.reject(e));
-    //   })
-    //   .then(res => {
-    //     this.setState({
-		// 			catList: res.json()
-		// 		})
-		// 	})
+		
+		.then (res=> this.setState({catList:res.json()}))
 	}
 
 	renderNavRoutes= () => {
@@ -96,7 +97,7 @@ export default class App extends Component {
 			</Switch>
 		);
 	}
-	render= () => {
+	render () {
 		const value = {
 			catList: this.state.catList,
 			dogList: this.state.dogList,
@@ -105,7 +106,8 @@ export default class App extends Component {
 			dequeue: this.dequeue,
 		}
 		return (
-			<ApiContext.Provider value={value}>
+		
+			 <ApiContext.Provider value={value}> 
 				<div className='App'>
 					<nav>
 						<Link exact to='/'><i className="fas fa-paw"></i> FIDO & FIFO</Link>{' '}
@@ -116,7 +118,8 @@ export default class App extends Component {
 					</ErrorPage>
 					{/* <Footer /> */}
 				</div>
-			</ApiContext.Provider>
-		);
+		</ApiContext.Provider> 
+		
+		 );
 	}
 }

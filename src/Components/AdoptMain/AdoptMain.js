@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Line from '../../Components/Line/Line';
 import ApiContext from '../../Contexts/ApiContext'
+
 import config from '../../config';
 import './AdoptMain.css';
 
 export default class AdoptMain extends Component {
+  
   static contextType = ApiContext;
 	state = {
 		index: 0,
@@ -34,7 +36,7 @@ export default class AdoptMain extends Component {
   }
 
   handleDeletePet = petType => {
-		let url = `config.API_ENDPOINT/${petType}`; //pbtag
+		let url = `${config.API_ENDPOINT}/${petType}`; //pbtag
 		fetch(url, { 
       method: 'DELETE',
       headers: {
@@ -52,7 +54,7 @@ export default class AdoptMain extends Component {
   }
 
   handleDeleteHuman = () => {
-		let url = `config.API_ENDPOINT/$`; //pbtag
+		let url = `${config.API_ENDPOINT}/$`; //pbtag
 		fetch(url, { 
       method: 'DELETE',
       headers: {
@@ -68,7 +70,7 @@ export default class AdoptMain extends Component {
         this.context.dequeue(`humanList`)
 			})
   }
-  
+ 
 	componentDidMount = () => {
 		this.setState({
 			petList: this.props.petList
@@ -77,12 +79,17 @@ export default class AdoptMain extends Component {
 	}
 
 	render = () => {
+    // if(!this.state.index){
+    //   return null;
+    // }
+    console.log('$$$$',this.props.petList)
 		let petType = this.props.petType;
 		let index = this.state.index;
     let currPet = this.props.petList[index];
     let adoptionStatus;
+    console.log('++++++',currPet)
     //if not adopted and front of the array, return 'available'
-    if (!currPet.adopted && index === 0) {
+    if (currPet.adopted && index === 0) {
       adoptionStatus = 'Available'
     }
     //if not adopted but not in front of the array, return 'available after first is adopted'

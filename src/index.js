@@ -3,12 +3,15 @@ import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./Components/App/App";
+// import ApiContextProvider from './Contexts/ApiContext'
 // import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
+  // <ApiContextProvider>
   <BrowserRouter>
     <App />
-  </BrowserRouter>, 
+  </BrowserRouter>,
+  // {/* </ApiContextProvider>,  */}
   document.getElementById("root")
 );
 

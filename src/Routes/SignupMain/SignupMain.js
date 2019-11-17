@@ -1,39 +1,60 @@
 import React, { Component } from 'react';
 // import { Redirect } from 'react-router';
 import config from '../../config';
+import ApiContext from '../../Contexts/ApiContext'
+//import AdopterApiService from '../../services/adopter-api-service'
 
 export default class SignupMain extends Component {
+	static contextType = ApiContext;
 	class = {
 		redirect: false,
 		petType: ''
 	}
-	
 	handleSubmit = (e) => {
+		console.log("^^^^^^^^^^^^^^^^^^ ",e.target)
 		e.preventDefault()
-		this.handlePostHumans(e.target.value);
+		const {adopterName} = e.target
+		this.handlePostHumans(adopterName.value);
 		this.props.history.push(`/adopt/${this.state.petType}`)
 	}
+	// handleSubmit = (e) => {
+	// 	e.preventDefault()
+	// 	const {name} = e.target
+	// 	AdopterApiService.postAdopterName(name.value)
+	// 	.then(res=>{
+	// 		name.value = ''
+	// 		this.context.enqueueHuman(res)
+	// 	})
+	// 	// this.handlePostHumans(e.target.value);
+	// 	// this.props.history.push(`/adopt/${this.state.petType}`)
+	// }
 
-	handlePostHumans = name => {
-		let url = config.API_ENDPOINT;
+	handlePostHumans = newName => {
+		console.log(newName)
+		let url = `${config.API_ENDPOINT}/adopters/post`;
 		fetch(url, { 
       method: 'POST',
       headers: {
         // "Authorization": `Bearer ${config.API_TOKEN}`,
 				"Content-type": "application/json",
-				"body": `${name}`
-      }
+			},
+			body: JSON.stringify({
+        name: newName,
+      }),
     })
+      // .then(res => {
+      //   if (!res.ok)
+      //     return res.json().then(e => Promise.reject(e));
+      // })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e));
-      })
-      .then(() => {
-				this.context.enqueueHuman(name)
+				// console.log('&&&&&',res.json())
+					this.context.enqueueHuman(res.json());
+				})
 				this.setState({
+					
 					redirect: true
 				})
-			})
+			
 	}
 
 	render () {
@@ -49,7 +70,7 @@ export default class SignupMain extends Component {
 							<label htmlFor='adopterName'>
 								Your Full Name:
 							</label>{' '}
-							<input type='text' id='adopterName' required>
+							<input type='text' id='adopterName' name ='adopterName' required>
 							</input>
 						</div>
 						<div>
