@@ -4,8 +4,8 @@ export default function Line (props) {
   const formatList = () => {
     return (
       <>
-        {props.line.map(person => {
-          return <li key={person}>{person}</li>
+        {props.line.map((person, index) => {
+          return <li key={index}>{person.name}</li>
         })}
       </>
     )

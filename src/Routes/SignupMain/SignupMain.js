@@ -25,6 +25,8 @@ export default class SignupMain extends Component {
 	// 		name.value = ''
 	// 		this.context.enqueueHuman(res)
 	// 	})
+	// .catch(err => console.log('Error', err))
+
 	// 	// this.handlePostHumans(e.target.value);
 	// 	// this.props.history.push(`/adopt/${this.state.petType}`)
 	// }
@@ -42,10 +44,10 @@ export default class SignupMain extends Component {
         name: newName,
       }),
     })
-      // .then(res => {
-      //   if (!res.ok)
-      //     return res.json().then(e => Promise.reject(e));
-      // })
+			// .then(res => 
+			// 	(!res.ok)
+			// 	? res.json().then(e => Promise.reject(e))
+			// 	: res.json()
       .then(res => {
 				// console.log('&&&&&',res.json())
 					this.context.enqueueHuman(res.json());

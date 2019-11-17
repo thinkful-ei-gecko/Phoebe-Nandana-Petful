@@ -52,12 +52,12 @@ export default class App extends Component {
 	componentDidMount = () => {
 		//get humans
 		fetch(`${config.API_ENDPOINT}/adopters`)
-			.then(res => {
+			.then(res =>
 			  (!res.ok)
 					? res.json().then(e => Promise.reject(e))
-					: res.json()
-			})
+					: res.json())
 			.then(res => this.setState({ humanList: res }))
+			.catch(err => console.log('Error', err))
 
 		//get dogs
 		fetch(`${config.API_ENDPOINT}/dogs`)
@@ -67,14 +67,17 @@ export default class App extends Component {
 					: res.json()
 			)
 			.then(res => this.setState({ dogList: res }))
+			.catch(err => console.log('Error', err))
 
 		//get cats
-		// fetch(`${config.API_ENDPOINT}/cats`) //pbtag
-		// 	.then(res => {
-		// 		if (!res.ok)
-		// 			return res.json().then(e => Promise.reject(e));
-		// 	})
-		// 	.then(res => this.setState({ catList: res }));
+		// fetch(`${config.API_ENDPOINT}/cats`)
+		// 	.then(res =>
+		// 		(!res.ok)
+		// 			? res.json().then(e => Promise.reject(e))
+		// 			: res.json()
+		// 	)
+		// 	.then(res => this.setState({ catList: res }))
+		// 	.catch(err => console.log('Error', err))
 	};
 
 	renderNavRoutes = () => {

@@ -8,27 +8,20 @@ export default function HomeMain () {
 			<body>
 				<h2>Your Local Adoption Shelter</h2>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur.
+					At FIDO & FIFO, we believe that all pets deserve to find a forever home. We hope you will look into your heart and find space for a new family member! Click on the links below to get started.
 				</p>
+				<h3>The Adoption Process</h3>
+				<p>To ensure that all of our cats and dogs find their forever family, we implement a FIFO (first-in, first-out) policy for your future Fido. This means that the pet that is first in line has also been with us for the longest. Be aware that we (thankfully) often have a queue of others waiting to adopt. If you join the queue, the others that have joined before you will take the available pet home, and when it's your turn, the available cat or dog will be yours! </p>
 				<div className='LinkContainer'>
 					<Link to='/signup'>
-						<span className='overlay'>
-							<div className='HomeMain__div photoLink cat'>
-								<h3>Adopt a Cat</h3>
-							</div>
-						</span>
+						<div className='HomeMain__div photoLink cat'>
+							<h3>Adopt a Cat</h3>
+						</div>
 					</Link>{' '}
 					<Link to='/signup'>
-						<span className='overlay'>
-							<div className='HomeMain__div photoLink dog'>
+						<div className='HomeMain__div photoLink dog'>
 							<h3>Adopt a Dog</h3>
 						</div>
-						</span>
 					</Link>
 				</div>
 			</body>

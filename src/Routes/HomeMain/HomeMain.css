@@ -18,27 +18,32 @@
   margin: 0.5rem 0;
 }
 
+.LinkContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .dog {
   background: center/100% url('./Photo-by-nrd-on-Unsplash.jpg');
+  background-repeat: no-repeat;
 }
 
 .cat {
   background: center/100% url('./Photo-by-Oleg-Ivanov-on-Unsplash.jpg');
+  background-repeat: no-repeat;
 }
 
 .photoLink:hover {
   opacity: 0.9;
 }
 /* resize so they fit in two boxes */
-/* @media screen and (min-width: 425 px) { 
-  .HomeMain__div.photoLink {
-    max-width: 300px;
-  }
+@media screen and (min-width: 425px) { 
+  /* .HomeMain__div.photoLink {
+    max-width: 50%;
+  } */
   
   .LinkContainer {
-    max-width: 600px;
-    display: flex;
+    max-width: 100%;
     flex-direction: row;
-    justify-content: space-between;
   }   
-} */
+}

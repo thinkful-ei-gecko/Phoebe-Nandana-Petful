@@ -45,13 +45,13 @@ export default class AdoptMain extends Component {
 				"Content-type": "application/json",
       }
     })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e));
-      })
-      .then(() => {
-				this.context.dequeue(`${petType}List`)
-			})
+      .then(res => 
+        (!res.ok)
+          ? res.json().then(e => Promise.reject(e))
+          : res.json()
+      )
+      .then(() => this.context.dequeue(`${petType}List`))
+      .catch(err => console.log('Error', err))
   }
 
   handleDeleteHuman = () => {
@@ -69,7 +69,8 @@ export default class AdoptMain extends Component {
       })
       .then(() => {
         this.context.dequeue(`humanList`)
-			})
+      })
+      .catch(err => console.log('Error', err))
   }
  
 	componentDidMount = () => {
