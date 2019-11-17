@@ -52,12 +52,12 @@ export default class App extends Component {
 	componentDidMount = () => {
 		//get humans
 		fetch(`${config.API_ENDPOINT}/adopters`)
-			// .then(res => {
-			//   (!res.ok)
-			// 		? res.json().then(e => Promise.reject(e))
-			// 		: res.json()
-			// })
-			.then(res => this.setState({ humanList: res.ok }))
+			.then(res => {
+			  (!res.ok)
+					? res.json().then(e => Promise.reject(e))
+					: res.json()
+			})
+			.then(res => this.setState({ humanList: res }))
 
 		//get dogs
 		fetch(`${config.API_ENDPOINT}/dogs`)
