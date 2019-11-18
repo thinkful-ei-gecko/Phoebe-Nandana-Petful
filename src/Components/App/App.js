@@ -4,7 +4,8 @@ import config from "../../config";
 import ApiContext from "../../Contexts/ApiContext";
 //import dogList from '../../dogStore';
 import DefaultMain from "../DefaultMain/DefaultMain";
-import AdoptDog from "../../Routes/AdoptDog/AdoptDog";
+import AdoptDogs from "../../Routes/AdoptDogs/AdoptDogs";
+import AdoptCats from "../../Routes/AdoptCats/AdoptCats";
 import DefaultNav from "../DefaultNav/DefaultNav";
 import ErrorPage from "../ErrorPage";
 import "./App.css";
@@ -27,20 +28,20 @@ export default class App extends Component {
 	};
 
 	dequeue = listName => {
-		if (listName && listName !== 'humanList') {
+		if (listName && listName !== "humanList") {
 			let list = this.state.listName;
 			let dqdObj = list.shift();
 			dqdObj.adopted = true;
-			list.shift().push(dqdObj)
-			this.setState ({
+			list.shift().push(dqdObj);
+			this.setState({
 				[listName]: list
-			})
+			});
 		} else {
-			this.setState ({
+			this.setState({
 				[listName]: this.state.listName.shift()
-			})
+			});
 		}
-	}
+	};
 
 	// componentDidMount(){
 	// AdopterApiService.getDogList()
@@ -48,36 +49,31 @@ export default class App extends Component {
 	// 	this.context.setDogList(res);
 	// })
 	// }
-	
+
 	componentDidMount = () => {
 		//get humans
 		fetch(`${config.API_ENDPOINT}/adopters`)
 			.then(res =>
-			  (!res.ok)
-					? res.json().then(e => Promise.reject(e))
-					: res.json())
+				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+			)
 			.then(res => this.setState({ humanList: res }))
-			.catch(err => console.log('Error', err))
+			.catch(err => console.log("Error", err));
 
 		//get dogs
 		fetch(`${config.API_ENDPOINT}/dogs`)
 			.then(res =>
-				 (!res.ok)
-					? res.json().then(e => Promise.reject(e))
-					: res.json()
+				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
 			)
 			.then(res => this.setState({ dogList: res }))
-			.catch(err => console.log('Error', err))
+			.catch(err => console.log("Error", err));
 
 		//get cats
-		// fetch(`${config.API_ENDPOINT}/cats`)
-		// 	.then(res =>
-		// 		(!res.ok)
-		// 			? res.json().then(e => Promise.reject(e))
-		// 			: res.json()
-		// 	)
-		// 	.then(res => this.setState({ catList: res }))
-		// 	.catch(err => console.log('Error', err))
+		fetch(`${config.API_ENDPOINT}/cats`)
+			.then(res =>
+				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+			)
+			.then(res => this.setState({ catList: res }))
+			.catch(err => console.log("Error", err));
 	};
 
 	renderNavRoutes = () => {
@@ -93,14 +89,21 @@ export default class App extends Component {
 			<Switch>
 				<Route exact path='/' component={DefaultMain} />
 				<Route exact path='/signup' component={DefaultMain} />
-				{/* <Route path='/adopt/cat' component={AdoptCat} /> */}
-				<Route path='/adopt/dog' component={AdoptDog} />
+				<Route path='/adopt/cats' component={AdoptCats} />
+				<Route path='/adopt/dogs' component={AdoptDogs} />
 				<Route component={PageNotFound} />
 			</Switch>
 		);
 	};
 	render() {
-		console.log('dogList in state of App', this.state.dogList, 'line', this.state.humanList)
+		console.log(
+			"dogList in state of App",
+			this.state.dogList,
+			"line",
+			this.state.humanList,
+			"cat",
+			this.state.catList
+		);
 		const value = {
 			catList: this.state.catList,
 			dogList: this.state.dogList,

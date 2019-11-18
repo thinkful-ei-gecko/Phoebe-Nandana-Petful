@@ -83,11 +83,12 @@ export default class AdoptMain extends Component {
 	render = () => {
     console.log('petList in `AdoptMain`', this.props.petList)
 		let petType = this.props.petType;
-		let index = this.state.index;
+    let index = this.state.index;
+    console.log(index)
     let currPet = this.props.petList[index];
     let adoptionStatus;
     //if not adopted and front of the array, return 'available'
-    if (currPet.adopted && index === 0) {
+    if (!currPet.adopted && index === 0) {
       adoptionStatus = 'Available'
     }
     //if not adopted but not in front of the array, return 'available after first is adopted'

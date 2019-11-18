@@ -12,7 +12,7 @@ export default class adoptDog extends Component {
       return null;
     }
     else {
-      console.log('dogList passed in context in `AdoptDog`', this.context.dogList);
+      console.log('dogList passed in context in `AdoptDogs`', this.context.dogList);
       return (
         <>
           <AdoptMain petType='dog' petList={this.context.dogList} />
