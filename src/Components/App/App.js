@@ -94,13 +94,8 @@ export default class App extends Component {
 			<Switch>
 				<Route exact path='/' component={DefaultMain} />
 				<Route exact path='/signup' component={DefaultMain} />
-<<<<<<< HEAD
 				<Route path='/adopt/cats' component={AdoptCats} />
 				<Route path='/adopt/dogs' component={AdoptDogs} />
-=======
-				 <Route path='/adopt/cat' component={AdoptCat} /> 
-				<Route path='/adopt/dog' component={AdoptDog} />
->>>>>>> ed3c89fdca921512feb8efc8b1df4357d7b7071f
 				<Route component={PageNotFound} />
 			</Switch>
 		);
