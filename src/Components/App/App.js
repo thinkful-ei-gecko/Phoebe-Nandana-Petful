@@ -2,27 +2,19 @@ import React, { Component } from "react";
 import { Route, Link, Switch } from "react-router-dom";
 import config from "../../config";
 import ApiContext from "../../Contexts/ApiContext";
-//import dogList from '../../dogStore';
 import DefaultMain from "../DefaultMain/DefaultMain";
-<<<<<<< HEAD
 import AdoptDogs from "../../Routes/AdoptDogs/AdoptDogs";
 import AdoptCats from "../../Routes/AdoptCats/AdoptCats";
-=======
-import AdoptDog from "../../Routes/AdoptDog/AdoptDog";
-import AdoptCat from "../../Routes/AdoptCat/AdoptCat";
->>>>>>> ed3c89fdca921512feb8efc8b1df4357d7b7071f
 import DefaultNav from "../DefaultNav/DefaultNav";
 import ErrorPage from "../ErrorPage";
-import "./App.css";
 import PageNotFound from "../PageNotFound";
-// import AdopterApiService from '../../services/adopter-api-service'
-// import ApiContextProvider from "../../Contexts/ApiContext";
+import "./App.css";
 
 export default class App extends Component {
 	static contextType = ApiContext;
 	state = {
-		catList: [],
-		dogList: [],
+		catsList: [],
+		dogsList: [],
 		humanList: []
 	};
 
@@ -34,26 +26,26 @@ export default class App extends Component {
 
 	dequeue = listName => {
 		if (listName && listName !== "humanList") {
-			let list = this.state.listName;
-			let dqdObj = list.shift();
-			dqdObj.adopted = true;
-			list.shift().push(dqdObj);
+			let list;
+			listName === 'dogsList' ? list = this.state.dogsList : list = this.state.catsList
+			// console.log(list)
+			let dequeuedObj = list.shift();
+			dequeuedObj.adopted = true;
+			list.shift();
+			list.push(dequeuedObj);
 			this.setState({
 				[listName]: list
 			});
 		} else {
+			let list = [];
+			//deep copy
+			this.state[listName].map(personObj => list.push(personObj))
+			list.shift()
 			this.setState({
-				[listName]: this.state.listName.shift()
+				[listName]: list
 			});
 		}
 	};
-
-	// componentDidMount(){
-	// AdopterApiService.getDogList()
-	// .then (res =>{
-	// 	this.context.setDogList(res);
-	// })
-	// }
 
 	componentDidMount = () => {
 		//get humans
@@ -69,7 +61,7 @@ export default class App extends Component {
 			.then(res =>
 				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
 			)
-			.then(res => this.setState({ dogList: res }))
+			.then(res => this.setState({ dogsList: res }))
 			.catch(err => console.log("Error", err));
 
 		//get cats
@@ -77,7 +69,7 @@ export default class App extends Component {
 			.then(res =>
 				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
 			)
-			.then(res => this.setState({ catList: res }))
+			.then(res => this.setState({ catsList: res }))
 			.catch(err => console.log("Error", err));
 	};
 
@@ -101,17 +93,9 @@ export default class App extends Component {
 		);
 	};
 	render() {
-		console.log(
-			"dogList in state of App",
-			this.state.dogList,
-			"line",
-			this.state.humanList,
-			"cat",
-			this.state.catList
-		);
 		const value = {
-			catList: this.state.catList,
-			dogList: this.state.dogList,
+			catsList: this.state.catsList,
+			dogsList: this.state.dogsList,
 			humanList: this.state.humanList,
 			enqueueHuman: this.enqueueHuman,
 			dequeue: this.dequeue

@@ -4,6 +4,7 @@ import ApiContext from '../../Contexts/ApiContext'
 
 import config from '../../config';
 import './AdoptMain.css';
+import { timeout } from "q";
 
 export default class AdoptMain extends Component {
   
@@ -28,12 +29,33 @@ export default class AdoptMain extends Component {
 		});
 	}
 
-  scheduledAdopt = () => {
-    for (let i=0; i<this.props.petList; i++) {
-      setTimeout(this.scheduledAdopt, 5000);
-      this.handleDeletePet(this.context.petType.toLowerCase());
-      this.handleDeleteHuman();
-    }
+  scheduledAdopt = petType => {
+    // console.log('in scheduled adopt')
+    // async function timeout() {
+    //   console.log('running timeout')
+    //   setTimeout(this.handleDelete(petType), 5000);
+    // }
+    // for (let i=0; i<this.props.petList.length; i++) {
+    //   console.log('sched adopt ran')
+    //   timeout().then()
+    // }
+    // async function f() {
+    //   console.log('running timeout')
+    //   let promise = new Promise((resolve, reject) => {
+    //     setTimeout(() => resolve(this.handleDelete(petType)), 5000);
+    //   })
+
+    //   let result = await promise;
+    //   this.handleDelete(result);
+    // }
+    // f()
+    //https://zellwk.com/blog/async-await-in-loops/
+    //do timeout for handle delete
+  }
+
+  handleDelete = (petType) => {
+    this.handleDeletePet(petType.toLowerCase());
+    this.handleDeleteHuman();
   }
 
   handleDeletePet = petType => {
@@ -51,42 +73,44 @@ export default class AdoptMain extends Component {
           : res.json()
       )
       .then(() => this.context.dequeue(`${petType}List`))
+      .then(() => {
+        return;
+      })
       .catch(err => console.log('Error', err))
   }
 
   handleDeleteHuman = () => {
-		let url = `${config.API_ENDPOINT}/$`; //pbtag
-		fetch(url, { 
-      method: 'DELETE',
-      headers: {
-        // "Authorization": `Bearer ${config.API_TOKEN}`,
-				"Content-type": "application/json",
-      }
-    })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e));
-      })
-      .then(() => {
-        this.context.dequeue(`humanList`)
-      })
-      .catch(err => console.log('Error', err))
+    this.context.dequeue(`humanList`)
+		// let url = `${config.API_ENDPOINT}/adopters$`; //pbtag
+		// fetch(url, { 
+    //   method: 'DELETE',
+    //   headers: {
+    //     // "Authorization": `Bearer ${config.API_TOKEN}`,
+		// 		"Content-type": "application/json",
+    //   }
+    // })
+    //   .then(res => 
+    //     (!res.ok)
+    //       ? res.json().then(e => Promise.reject(e))
+    //       : res.json()
+    //   )
+    //   .then(() => {
+    //     this.context.dequeue(`humanList`)
+    //   })
+    //   .catch(err => console.log('Error', err))
   }
  
 	componentDidMount = () => {
-		// this.setState({
-		// 	petList: this.props.petList
-    // });
-    this.scheduledAdopt(0);
+		console.log('in `compDidMt')
+    this.scheduledAdopt(this.props.petType, 0);
 	}
 
 	render = () => {
-    console.log('petList in `AdoptMain`', this.props.petList)
 		let petType = this.props.petType;
     let index = this.state.index;
-    console.log(index)
     let currPet = this.props.petList[index];
     let adoptionStatus;
+
     //if not adopted and front of the array, return 'available'
     if (!currPet.adopted && index === 0) {
       adoptionStatus = 'Available'
@@ -102,20 +126,18 @@ export default class AdoptMain extends Component {
 		return (
 			<>
 				<div className='AdoptMain__div'>
-					<header className='AdoptMain-header'>
-						<h1>FIDO & FIFO ADOPTION</h1>
-					</header>
-					<body className='AdoptMain__body'>
+          <h1>FIDO & FIFO ADOPTION</h1>
+					<div className='AdoptMain__div body'>
 						<div className='AdoptMain__div petInfo'>
-              <h2>{petType}s for Adoption</h2>
+              <h2>{petType} for Adoption</h2>
               <div className='photoButtonsContainer'>
                 {this.state.index < 1 ? (
-                    <button className='disabled'><i className="fas fa-chevron-left"></i></button>
+                    <button className='AdoptMain__button disabled'><i className="fas fa-chevron-left"></i></button>
                   ) : (
-                    <button onClick={() => this.changeIndex(-1)}><i className="fas fa-chevron-left"></i></button>
+                    <button className='AdoptMain__button' onClick={() => this.changeIndex(-1)}><i className="fas fa-chevron-left"></i></button>
                   )}{' '}
                 <img src={currPet.imageURL} alt={currPet.imageDescription} className='AdoptMain__img'></img>
-                <button onClick={() => this.changeIndex(1)}><i className="fas fa-chevron-right"></i></button>
+                <button className='AdoptMain__button' onClick={() => this.changeIndex(1)}><i className="fas fa-chevron-right"></i></button>
               </div>
               <h3>{currPet.name}</h3>
 							<ul>
@@ -129,7 +151,7 @@ export default class AdoptMain extends Component {
 						<div className='AdoptMain__div lineInfo'>
               <Line line={line}/>
 						</div>
-					</body>
+					</div>
 				</div>
 			</>
 		);

@@ -7,16 +7,17 @@
   align-content: center;
 }
 
-button {
-  background: none;
-  border: white !important;
+.AdoptMain__button {
+  background-color: white;
+  color: black;
   margin: 0 2rem;
-  font-size: 4rem
+  font-size: 3rem;
+  border: none;
 }
 
 @media screen and (min-width: 425px) {
- 
-  .AdoptMain__body {
+
+  .AdoptMain__div.body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

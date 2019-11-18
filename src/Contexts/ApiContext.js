@@ -1,8 +1,8 @@
-import React,{ Component }  from 'react';
+import React  from 'react';
 
 const ApiContext = React.createContext({
-  catList: [],
-  dogList: [],
+  catsList: [],
+  dogsList: [],
   humanList: [],
   setDogList:()=>{},
   enqueueHuman:() => {},

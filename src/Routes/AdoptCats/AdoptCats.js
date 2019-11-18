@@ -8,14 +8,13 @@ export default class adoptCat extends Component {
 
 	//pass list into adopt main
 	render() {
-    if (this.context.catList.length === 0) {
+    if (this.context.catsList.length === 0) {
       return null;
     }
     else {
-      console.log('catList passed in context in `AdoptCats`', this.context.catList);
       return (
         <>
-          <AdoptMain petType='dog' petList={this.context.catList} />
+          <AdoptMain petType='Cats' petList={this.context.catsList} />
         </>
       );
     }

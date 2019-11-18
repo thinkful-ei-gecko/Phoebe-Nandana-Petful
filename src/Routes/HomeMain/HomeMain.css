@@ -1,11 +1,3 @@
-/* .photoLink .dog {
-  background: url('%PUBLIC_URL%/Photo-by-Oleg-Ivanov-on-Unsplash.jpg');
-}
-
-.photoLink .cat {
-  background: url('%PUBLIC_URL%/Photo-by-Oleg-Ivanov-on-Unsplash');
-} */
-
 .photoLink {
   min-height: 30vh;
   display: flex;
@@ -35,15 +27,4 @@
 
 .photoLink:hover {
   opacity: 0.9;
-}
-/* resize so they fit in two boxes */
-@media screen and (min-width: 425px) { 
-  /* .HomeMain__div.photoLink {
-    max-width: 50%;
-  } */
-  
-  .LinkContainer {
-    max-width: 100%;
-    flex-direction: row;
-  }   
 }
