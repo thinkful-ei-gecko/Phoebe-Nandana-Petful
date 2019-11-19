@@ -4,18 +4,19 @@ import ApiContext from '../../Contexts/ApiContext'
 
 import config from '../../config';
 import './AdoptMain.css';
-import { timeout } from "q";
 
 export default class AdoptMain extends Component {
   
   static contextType = ApiContext;
 	state = {
-		index: 0,
+    index: 0,
+    // petBeingDequeued: '',
+    // adoptedDogList: ['thisistheadopteddoglist']
 	};
 
   //increments or decrements index of current object; loops through when gets to the end
 	changeIndex = (num) => {
-		if (!num && this.state.counter <= 1) {
+		if (this.state.index <= 1 && !num) {
 			return;
     }
     let petListLength = this.props.petList.length
@@ -27,8 +28,9 @@ export default class AdoptMain extends Component {
 		this.setState({
 			index: this.state.index + num
 		});
-	}
-
+  }
+  
+  
   scheduledAdopt = petType => {
     // console.log('in scheduled adopt')
     // async function timeout() {
@@ -51,11 +53,22 @@ export default class AdoptMain extends Component {
     // f()
     //https://zellwk.com/blog/async-await-in-loops/
     //do timeout for handle delete
+
   }
 
-  handleDelete = (petType) => {
-    this.handleDeletePet(petType.toLowerCase());
+  removePetAndHumanFromQueues = petType => {
+    // let arr = this.state.adoptedDogList
+    // arr.push(petName)
+    
+    // this.setState({
+    //   adoptedDogList: arr 
+    // })
+    petType = petType.toLowerCase();
+    this.handleDeletePet(petType);
     this.handleDeleteHuman();
+    this.setState({
+      index: 0
+    })
   }
 
   handleDeletePet = petType => {
@@ -72,10 +85,14 @@ export default class AdoptMain extends Component {
           ? res.json().then(e => Promise.reject(e))
           : res.json()
       )
-      .then(() => this.context.dequeue(`${petType}List`))
-      .then(() => {
-        return;
+      .then(res => {
+        let adoptedPet = res[res.length-1].name
+        
+        this.setState({
+          adoptedDogList: adoptedPet
+        })
       })
+      .then(() => this.context.dequeue(`${petType}List`))
       .catch(err => console.log('Error', err))
   }
 
@@ -99,11 +116,6 @@ export default class AdoptMain extends Component {
     //   })
     //   .catch(err => console.log('Error', err))
   }
- 
-	componentDidMount = () => {
-		console.log('in `compDidMt')
-    this.scheduledAdopt(this.props.petType, 0);
-	}
 
 	render = () => {
 		let petType = this.props.petType;
@@ -129,6 +141,7 @@ export default class AdoptMain extends Component {
           <h1>FIDO & FIFO ADOPTION</h1>
 					<div className='AdoptMain__div body'>
 						<div className='AdoptMain__div petInfo'>
+              <h2>{this.state.adoptedDogList}</h2>
               <h2>{petType} for Adoption</h2>
               <div className='photoButtonsContainer'>
                 {this.state.index < 1 ? (

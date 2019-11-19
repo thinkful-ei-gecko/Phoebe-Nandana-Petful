@@ -36,11 +36,14 @@ export default class App extends Component {
 			this.setState({
 				[listName]: list
 			});
-		} else {
+		} else if (listName) {
+			console.log('im dequeueing')
 			let list = [];
 			//deep copy
 			this.state[listName].map(personObj => list.push(personObj))
+			//remove the first animal
 			list.shift()
+			//set state to the list without the first animal
 			this.setState({
 				[listName]: list
 			});
@@ -100,6 +103,7 @@ export default class App extends Component {
 			enqueueHuman: this.enqueueHuman,
 			dequeue: this.dequeue
 		};
+		console.log(value.catsList, value.dogsList, value.humanList)
 		return (
 			<ApiContext.Provider value={value}>
 				<div className='App'>
