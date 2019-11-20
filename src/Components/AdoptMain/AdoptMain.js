@@ -76,7 +76,7 @@ export default class AdoptMain extends Component {
 
   handleDeleteHuman = () => {
     this.context.dequeue(`humanList`)
-		let url = `${config.API_ENDPOINT}/adopters$`; //pbtag
+		let url = `${config.API_ENDPOINT}/adopters`; //pbtag
 		fetch(url, { 
       method: 'DELETE',
       headers: {

@@ -28,7 +28,6 @@ export default class App extends Component {
 		if (listName && listName !== "humanList") {
 			let list;
 			listName === 'dogsList' ? list = this.state.dogsList : list = this.state.catsList
-			// console.log(list)
 			let dequeuedObj = list.shift();
 			dequeuedObj.adopted = true;
 			list.shift();
@@ -37,7 +36,6 @@ export default class App extends Component {
 				[listName]: list
 			});
 		} else if (listName) {
-			console.log('im dequeueing')
 			let list = [];
 			//deep copy
 			this.state[listName].map(personObj => list.push(personObj))
@@ -95,7 +93,7 @@ export default class App extends Component {
 			</Switch>
 		);
 	};
-	
+
 	render() {
 		const value = {
 			catsList: this.state.catsList,
@@ -104,7 +102,6 @@ export default class App extends Component {
 			enqueueHuman: this.enqueueHuman,
 			dequeue: this.dequeue
 		};
-		console.log(value.catsList, value.dogsList, value.humanList)
 		return (
 			<ApiContext.Provider value={value}>
 				<div className='App'>
