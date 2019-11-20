@@ -95,6 +95,7 @@ export default class App extends Component {
 			</Switch>
 		);
 	};
+	
 	render() {
 		const value = {
 			catsList: this.state.catsList,

@@ -29,48 +29,26 @@ export default class AdoptMain extends Component {
 			index: this.state.index + num
 		});
   }
-  
-  
-  scheduledAdopt = petType => {
-    // console.log('in scheduled adopt')
-    // async function timeout() {
-    //   console.log('running timeout')
-    //   setTimeout(this.handleDelete(petType), 5000);
-    // }
-    // for (let i=0; i<this.props.petList.length; i++) {
-    //   console.log('sched adopt ran')
-    //   timeout().then()
-    // }
-    // async function f() {
-    //   console.log('running timeout')
-    //   let promise = new Promise((resolve, reject) => {
-    //     setTimeout(() => resolve(this.handleDelete(petType)), 5000);
-    //   })
 
-    //   let result = await promise;
-    //   this.handleDelete(result);
-    // }
-    // f()
-    //https://zellwk.com/blog/async-await-in-loops/
-    //do timeout for handle delete
-
-  }
-
-  removePetAndHumanFromQueues = petType => {
-    // let arr = this.state.adoptedDogList
-    // arr.push(petName)
-    
-    // this.setState({
-    //   adoptedDogList: arr 
-    // })
+  handleAdopt = petType => {
     petType = petType.toLowerCase();
-    this.handleDeletePet(petType);
-    this.handleDeleteHuman();
-    this.setState({
-      index: 0
+    let promise = new Promise(() => {
+      this.handleDeletePet(petType);
+      this.handleDeleteHuman();
+    });
+
+    promise.then(() => {
+      //base case: if they are all adopted (first in list means all adopted (looped)), then you're done! 
+      if (this.props.petList[0].adopted) {
+        return;
+      }
+      //else do another loop
+      else {
+        this.handleAdopt(petType)
+      }
     })
   }
-
+  
   handleDeletePet = petType => {
 		let url = `${config.API_ENDPOINT}/${petType}`; //pbtag
 		fetch(url, { 
@@ -98,23 +76,29 @@ export default class AdoptMain extends Component {
 
   handleDeleteHuman = () => {
     this.context.dequeue(`humanList`)
-		// let url = `${config.API_ENDPOINT}/adopters$`; //pbtag
-		// fetch(url, { 
-    //   method: 'DELETE',
-    //   headers: {
-    //     // "Authorization": `Bearer ${config.API_TOKEN}`,
-		// 		"Content-type": "application/json",
-    //   }
-    // })
-    //   .then(res => 
-    //     (!res.ok)
-    //       ? res.json().then(e => Promise.reject(e))
-    //       : res.json()
-    //   )
-    //   .then(() => {
-    //     this.context.dequeue(`humanList`)
-    //   })
-    //   .catch(err => console.log('Error', err))
+		let url = `${config.API_ENDPOINT}/adopters$`; //pbtag
+		fetch(url, { 
+      method: 'DELETE',
+      headers: {
+        // "Authorization": `Bearer ${config.API_TOKEN}`,
+				"Content-type": "application/json",
+      }
+    })
+      .then(res => 
+        (!res.ok)
+          ? res.json().then(e => Promise.reject(e))
+          : res.json()
+      )
+      .then(() => {
+        this.context.dequeue(`humanList`)
+      })
+      .catch(err => console.log('Error', err))
+  }
+
+  componentDidMount = () => {
+    this.onMount = setInterval(() => {
+      this.handleAdopt(this.props.petType)
+    }, 3000)
   }
 
 	render = () => {
