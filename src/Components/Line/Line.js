@@ -1,22 +1,29 @@
-import React from 'react';
+import React, { Component } from "react";
+import ApiContext from '../../Contexts/ApiContext'
 
-export default function Line (props) {
-  const formatList = () => {
+export default class Line extends Component {
+  static contextType = ApiContext;
+  
+  formatList = () => {
     return (
       <>
-        {props.line.map((person, index) => {
+        {this.context.humanList.map((person, index) => {
           return <li key={index}>{person.name}</li>
         })}
       </>
     )
   }
-
-  return (
+render(){
+  console.log(this.context.humanList)
+  return(
     <>
-      <h3>Current Line</h3>
-      <ol>
-        {formatList()}
-      </ol>
-    </>
+    <h3>Current Line</h3>
+    <ol>
+      {this.formatList()}
+    </ol>
+  </>
   )
 }
+}
+
+    

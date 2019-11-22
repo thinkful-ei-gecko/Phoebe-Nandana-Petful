@@ -1,18 +1,22 @@
-import React from "react";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./Components/App/App";
-// import ApiContextProvider from './Contexts/ApiContext'
-// import * as serviceWorker from "./serviceWorker";
+import {ApiProvider} from './Contexts/ApiContext'
+import './index.css';
+import App from './Components/App/App';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  // <ApiContextProvider>
+  <ApiProvider>
   <BrowserRouter>
     <App />
-  </BrowserRouter>,
-  // {/* </ApiContextProvider>,  */}
+  </BrowserRouter>
+  </ApiProvider>,
+    
   document.getElementById("root")
 );
 
-// serviceWorker.unregister();
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

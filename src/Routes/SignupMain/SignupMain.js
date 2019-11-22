@@ -5,15 +5,12 @@ import './SignupMain.css'
 
 export default class SignupMain extends Component {
 	static contextType = ApiContext;
-	class = {
-		// redirect: false,
-		petType: ''
-	}
+	
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const {adopterName} = e.target
 		this.handlePostHumans(adopterName.value);
-		this.props.history.push(`/adopt/${this.state.petType}`)
+		this.props.history.push(`/adopt/${this.context.petType}`)
 	}
 
 	handlePostHumans = newName => {
@@ -28,15 +25,19 @@ export default class SignupMain extends Component {
         name: newName,
       }),
     })
-      .then(res => {
-					this.context.enqueueHuman(res.json());
-				})
-				// this.setState({
-				// 	redirect: true
-				// })
+      .then(res =>
+				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+			)
+			.then(res => {
+				console.log(res)
+				this.context.setHumanList(res);
+				
+			})
+
 	}
 
 	render = () => {
+		
 		return (
 			<div className='SignupMain__div'>
 				<h2>FIFO Adoption</h2>
@@ -52,8 +53,8 @@ export default class SignupMain extends Component {
 						</input>
 					</div>
 					<div className='SignupMain__div buttonContainer'>
-						<button className='SignupMain__button' type='submit' onClick={() => this.setState({petType: 'cats'})}>Adopt a Cat</button>{' '}
-						<button className='SignupMain__button' type='submit' onClick={() => this.setState({petType: 'dogs'})}>Adopt a Dog</button>
+						<button className='SignupMain__button' type='submit' onClick={() => this.context.setPetType('cats')}>Adopt a Cat</button>{' '}
+						<button className='SignupMain__button' type='submit' onClick={() => this.context.setPetType('dogs')}>Adopt a Dog</button>
 					</div>
 				</form>
 			</div>
