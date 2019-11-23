@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import config from '../../config';
 import ApiContext from '../../Contexts/ApiContext'
+import ApiService from '../../Services/api-service'
 import './SignupMain.css'
 
 export default class SignupMain extends Component {
@@ -9,32 +9,16 @@ export default class SignupMain extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const {adopterName} = e.target
-		this.handlePostHumans(adopterName.value);
-		this.props.history.push(`/adopt/${this.context.petType}`)
+		ApiService.postAdopterName(adopterName.value)
+		.then(res => {
+			console.log(res)
+			this.context.setHumanList(res);
+			
+		})
+		this.props.history.push(`/adopt/pets`)
 	}
 
-	handlePostHumans = newName => {
 
-		let url = `${config.API_ENDPOINT}/adopters/post`;
-		fetch(url, { 
-      method: 'POST',
-      headers: {
-				"Content-type": "application/json",
-			},
-			body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(res =>
-				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-			)
-			.then(res => {
-				console.log(res)
-				this.context.setHumanList(res);
-				
-			})
-
-	}
 
 	render = () => {
 		

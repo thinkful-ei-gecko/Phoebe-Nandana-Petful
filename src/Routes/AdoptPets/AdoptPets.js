@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import config from '../../config'
 import AdoptMain from "../../Components/AdoptMain/AdoptMain";
 import ApiContext from "../../Contexts/ApiContext";
-import './AdoptDogs.css' 
-import Line from '../../Components/Line/Line'
+import './AdoptPets.css' 
+import Line from '../../Components/Line/Line';
+import ApiService from '../../Services/api-service'
 
 
 export default class adoptCat extends Component {
@@ -28,27 +28,38 @@ export default class adoptCat extends Component {
 		});
   }
 
+
 	componentDidMount = () => {
     
+    const petType = this.context.petType
 		//get dogs
-		fetch(`${config.API_ENDPOINT}/dogs`)
-			.then(res =>
-				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-			)
-      .then(res=>{this.context.setDogList(res)
-        console.log(res)})
-			.catch(err => console.log("Error", err))
-
+    ApiService.getPetList(petType)
+    .then(res => 
+      (petType === 'dogs')
+      ? this.context.setDogList(res):this.context.setCatList(res)
+    )
+      // ApiService.getAdopters()
+      // .then(res =>this.context.setHumanList(res))
+      
+ 
+      // this.onMount = setInterval(() => {
+      //   this.handleAdopt(petType)
+      // }, 5000)
+    
   };
+  componentWillUnmount() {
+    clearInterval(this.onMount);
+  }
   
 	//pass list into adopt main
 	render() {
     let petType = this.context.petType|| '';
     let index = this.state.index;
-   const dogsList = this.context.dogsList || [];
-    console.log(dogsList)
-  let currPet =dogsList[index] ||{}
-  console.log(currPet.breed)
+    let petList = petType === 'dogs' ? this.context.dogsList :this.context.catsList ||[];
+  //  const dogsList = this.context.dogsList || [];
+  //   console.log(dogsList)
+  let currPet =petList[index] ||{}
+  
       return (
         <>
         <div className='AdoptMain__div'>
