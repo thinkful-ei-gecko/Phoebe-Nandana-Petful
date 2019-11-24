@@ -9,9 +9,11 @@ export default class SignupMain extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const {adopterName} = e.target
+		ApiService.getAdopters()
+      .then(res =>this.context.setHumanList(res))
 		ApiService.postAdopterName(adopterName.value)
 		.then(res => {
-			console.log(res)
+			
 			this.context.setHumanList(res);
 			
 		})

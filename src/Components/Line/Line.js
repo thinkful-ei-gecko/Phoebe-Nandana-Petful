@@ -14,7 +14,8 @@ export default class Line extends Component {
     )
   }
 render(){
-  console.log(this.context.humanList)
+  console.log(this.context.humanList.length)
+
   return(
     <>
     <h3>Current Line</h3>

@@ -31,15 +31,14 @@ export default class adoptCat extends Component {
 
 	componentDidMount = () => {
     
-    const petType = this.context.petType
+    const petType = this.context.petType 
 		//get dogs
     ApiService.getPetList(petType)
     .then(res => 
       (petType === 'dogs')
       ? this.context.setDogList(res):this.context.setCatList(res)
     )
-      // ApiService.getAdopters()
-      // .then(res =>this.context.setHumanList(res))
+      
       
  
       // this.onMount = setInterval(() => {
@@ -58,7 +57,7 @@ export default class adoptCat extends Component {
     let petList = petType === 'dogs' ? this.context.dogsList :this.context.catsList ||[];
   //  const dogsList = this.context.dogsList || [];
   //   console.log(dogsList)
-  let currPet =petList[index] ||{}
+  let currPet =petList[index] ||{};
   
       return (
         <>

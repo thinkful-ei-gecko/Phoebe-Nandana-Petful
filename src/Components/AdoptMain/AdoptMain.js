@@ -27,12 +27,9 @@ export default class AdoptMain extends Component {
 	// 	});
   // }
 
+
   handleAdopt = petType => {
-    console.log(petType)
-    petType = this.context.petType
-    let promise = new Promise(() => {
-      ApiService.deletePet(petType)
-      
+    ApiService.deletePet(petType)
       .then(res => 
         (petType === 'dogs')
         ? this.context.setDogList(res):this.context.setCatList(res)
@@ -40,29 +37,32 @@ export default class AdoptMain extends Component {
       ApiService.deleteAdopter()
       .then(res => {
         this.context.setHumanList(res)
-      })
-    });
-
-    promise.then(() => {
-      let petList = petType === 'dogs' ? this.context.dogsList :this.context.catsList 
+      });
+    
+    // let length = this.context.humanList.length || 0 ;
+    // length === 1 ? clearInterval() : setInterval(() => {
+    //   this.handleAdopt(petType)
+    // }, 3000)
+      
+    //promise.then(() => {
+      //console.log('**********',this.context.humanList.length)
+      //let petList = petType === 'dogs' ? this.context.dogsList :this.context.catsList 
       //base case: if they are all adopted (first in list means all adopted (looped)), then you're done! 
-      if (petList[0].adopted) {
-        return;
-      }
-      //else do another loop
-      else {
-        this.handleAdopt(petType)
-      }
-    })
+      // if (this.context.humanList.length === 1) {
+      //   clearInterval(this.onMount)
+      // }
+      // //else do another loop
+      // else {
+      //   this.handleAdopt(petType)
+      // }
+    //})
   }
 
   componentDidMount = () => {
-   //const length = this.context.humanList.length
-   let petType = this.context.petType || ''
+    let petType = this.context.petType || ''
     this.onMount = setInterval(() => {
       this.handleAdopt(petType)
     }, 3000)
-  
   }
   componentWillUnmount() {
     clearInterval(this.onMount);
