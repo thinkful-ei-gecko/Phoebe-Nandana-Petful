@@ -97,7 +97,9 @@ export default class App extends Component {
 					<ErrorPage>
 						<main className='App__main'>{this.renderMainRoutes()}</main>
 					</ErrorPage>
-					{/* <Footer /> */}
+					<footer>
+						<p className='footer__p'>Created by <a className='footer__a' href='https://shiningjustice.github.io/'>Phoebe Law</a> and <a className='footer__a' href='https://nrrao.github.io/Nandana-portfolio/'>Nanadana Rao</a></p>
+					</footer>
 				</div>
 			</ApiContext.Provider>
 		);
