@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Link, Switch } from "react-router-dom";
-import config from "../../config";
 import ApiContext from "../../Contexts/ApiContext";
+import adoptApiService from '../../Services/adopt-api-service';
 import DefaultMain from "../DefaultMain/DefaultMain";
 import AdoptDogs from "../../Routes/AdoptDogs/AdoptDogs";
 import AdoptCats from "../../Routes/AdoptCats/AdoptCats";
@@ -15,35 +15,30 @@ export default class App extends Component {
 	state = {
 		catsList: [],
 		dogsList: [],
-		humanList: []
+		adoptersList: []
 	};
 
-	enqueueHuman = nameArray => {
+	enqueueAdopter = nameArray => {
 		this.setState({
-			humanList: nameArray
+			adoptersList: nameArray
 		});
 	};
 
 	dequeue = listName => {
-		if (listName && listName !== "humanList") {
+		if (listName && listName !== "adoptersList") {
 			let list;
 			listName === 'dogsList' ? list = this.state.dogsList : list = this.state.catsList
-			// console.log(list)
 			let dequeuedObj = list.shift();
 			dequeuedObj.adopted = true;
-			list.shift();
 			list.push(dequeuedObj);
 			this.setState({
 				[listName]: list
 			});
 		} else if (listName) {
-			console.log('im dequeueing')
 			let list = [];
-			//deep copy
+			//creates deep copy
 			this.state[listName].map(personObj => list.push(personObj))
-			//remove the first animal
 			list.shift()
-			//set state to the list without the first animal
 			this.setState({
 				[listName]: list
 			});
@@ -51,29 +46,15 @@ export default class App extends Component {
 	};
 
 	componentDidMount = () => {
-		//get humans
-		fetch(`${config.API_ENDPOINT}/adopters`)
-			.then(res =>
-				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-			)
-			.then(res => this.setState({ humanList: res }))
-			.catch(err => console.log("Error", err));
-
-		//get dogs
-		fetch(`${config.API_ENDPOINT}/dogs`)
-			.then(res =>
-				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-			)
-			.then(res => this.setState({ dogsList: res }))
-			.catch(err => console.log("Error", err));
-
-		//get cats
-		fetch(`${config.API_ENDPOINT}/cats`)
-			.then(res =>
-				!res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-			)
-			.then(res => this.setState({ catsList: res }))
-			.catch(err => console.log("Error", err));
+		adoptApiService.getAdopters().then(res => {
+			this.setState({ adoptersList: res });
+		});
+		adoptApiService.getDogs().then(res => {
+			this.setState({ dogsList: res });
+		});
+		adoptApiService.getCats().then(res => {
+			this.setState({ catsList: res });
+		});
 	};
 
 	renderNavRoutes = () => {
@@ -100,11 +81,10 @@ export default class App extends Component {
 		const value = {
 			catsList: this.state.catsList,
 			dogsList: this.state.dogsList,
-			humanList: this.state.humanList,
-			enqueueHuman: this.enqueueHuman,
+			adoptersList: this.state.adoptersList,
+			enqueueAdopter: this.enqueueAdopter,
 			dequeue: this.dequeue
 		};
-		console.log(value.catsList, value.dogsList, value.humanList)
 		return (
 			<ApiContext.Provider value={value}>
 				<div className='App'>

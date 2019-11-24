@@ -3,9 +3,9 @@ import React  from 'react';
 const ApiContext = React.createContext({
   catsList: [],
   dogsList: [],
-  humanList: [],
+  adoptersList: [],
   setDogList:()=>{},
-  enqueueHuman:() => {},
+  enqueueAdopter:() => {},
   dequeue:() => {},
 })
 export default ApiContext

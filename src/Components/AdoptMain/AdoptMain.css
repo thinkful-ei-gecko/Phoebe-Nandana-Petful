@@ -16,10 +16,15 @@
 }
 
 @media screen and (min-width: 425px) {
-
   .AdoptMain__div.body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
   }
+}
+
+@media screen and (min-width: 768px) {
+  /* .AdoptMain__img {
+    width: 70%;
+  } */
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import config from '../../config';
+import adoptApiService from '../../Services/adopt-api-service'
 import ApiContext from '../../Contexts/ApiContext'
 import './SignupMain.css'
 
@@ -12,28 +12,8 @@ export default class SignupMain extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const {adopterName} = e.target
-		this.handlePostHumans(adopterName.value);
+		adoptApiService.postAdopters(adopterName.value).then(res => this.context.enqueueAdopter(res));
 		this.props.history.push(`/adopt/${this.state.petType}`)
-	}
-
-	handlePostHumans = newName => {
-
-		let url = `${config.API_ENDPOINT}/adopters/post`;
-		fetch(url, { 
-      method: 'POST',
-      headers: {
-				"Content-type": "application/json",
-			},
-			body: JSON.stringify({
-        name: newName,
-      }),
-    })
-      .then(res => {
-					this.context.enqueueHuman(res.json());
-				})
-				// this.setState({
-				// 	redirect: true
-				// })
 	}
 
 	render = () => {
