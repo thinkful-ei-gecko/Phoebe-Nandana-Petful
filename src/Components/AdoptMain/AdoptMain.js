@@ -57,7 +57,7 @@ export default class AdoptMain extends Component {
 		let petType = this.props.petType;
 		let index = this.state.index;
 		let currPet = this.props.petList[index];
-		let adoptionStatus;
+		let adoptionStatus; let filter; let color;
     
     //if adoption line is empty or if all dogs are adopted, clear interval
     if (this.context.adoptersList.length === 0 || this.props.petList[0].adopted === true) {
@@ -66,15 +66,19 @@ export default class AdoptMain extends Component {
 
 		//if not adopted and front of the array, return 'available'
 		if (!currPet.adopted && index === 0) {
-			adoptionStatus = "Available";
+      adoptionStatus = "Available";
+      color = 'green';
 		}
 		//if not adopted but not in front of the array, return 'available after first is adopted'
 		else if (!currPet.adopted) {
-			adoptionStatus = `Not currently available (not first in line for adoption)`;
+      adoptionStatus = `Not currently available (not first in line for adoption)`;
+      color = 'orange';
 		}
 		//otherwise (if adopted === true) return "no longer available"
 		else {
-			adoptionStatus = "No longer available (in the process of being adopted)";
+      adoptionStatus = "No longer available (in the process of being adopted)";
+      color = 'red';
+      filter = 'grayscale';
 		}
     let line = this.context.adoptersList;
 
@@ -101,8 +105,8 @@ export default class AdoptMain extends Component {
 								<img
 									src={currPet.imageURL}
 									alt={currPet.imageDescription}
-									className='AdoptMain__img'
-								></img>
+                  className={`AdoptMain__img ${filter}`}
+                ></img>
 								<button
 									className='AdoptMain__button'
 									onClick={() => this.changeIndex(1)}
@@ -113,8 +117,8 @@ export default class AdoptMain extends Component {
 							<h3>{currPet.name}</h3>
 							<ul>
 								<li>
-									<span className='bold'>Adoption Status:</span>{" "}
-									{adoptionStatus}
+									<span className=''>Adoption Status:</span>{" "}
+									<span className={color}>{adoptionStatus}</span>
 								</li>
 								<li>
 									<span className='bold'>Sex:</span> {currPet.sex}

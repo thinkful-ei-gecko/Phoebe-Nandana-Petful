@@ -15,3 +15,20 @@ code {
 .bold {
   font-weight: 600;
 }
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: #bc5100;
+}
+
+.red {
+  color: darkred;
+}
+
+.grayscale {
+  -webkit-filter: grayscale(100%); 
+  filter: grayscale(100%); 
+}
