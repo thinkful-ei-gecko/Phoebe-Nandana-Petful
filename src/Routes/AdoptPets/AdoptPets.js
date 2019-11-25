@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdoptMain from "../../Components/AdoptMain/AdoptMain";
+//import AdoptMain from "../../Components/AdoptMain/AdoptMain";
 import ApiContext from "../../Contexts/ApiContext";
 import './AdoptPets.css' 
 import Line from '../../Components/Line/Line';
@@ -28,7 +28,17 @@ export default class adoptCat extends Component {
 		});
   }
 
-
+  handleAdopt = petType => {
+    ApiService.deletePet(petType)
+      .then(res => 
+        (petType === 'dogs')
+        ? this.context.setDogList(res):this.context.setCatList(res)
+      )
+      ApiService.deleteAdopter()
+      .then(res => {
+        this.context.setHumanList(res)
+      });
+    }
 	componentDidMount = () => {
     
     const petType = this.context.petType 
@@ -41,13 +51,13 @@ export default class adoptCat extends Component {
       
       
  
-      // this.onMount = setInterval(() => {
-      //   this.handleAdopt(petType)
-      // }, 5000)
+      this.interval = setInterval(() => {
+        this.handleAdopt(petType)
+      }, 3000)
     
   };
   componentWillUnmount() {
-    clearInterval(this.onMount);
+    clearInterval(this.interval);
   }
   
 	//pass list into adopt main
@@ -58,6 +68,22 @@ export default class adoptCat extends Component {
   //  const dogsList = this.context.dogsList || [];
   //   console.log(dogsList)
   let currPet =petList[index] ||{};
+  console.log(this.context.humanList.length)
+  let adoptionStatus;  let color;
+  if (this.context.humanList.length === 1) {
+    clearInterval(this.interval);
+  }
+  //if not adopted and front of the array, return 'available'
+  if (index === 0) {
+    adoptionStatus = "Available";
+    color = 'green';
+  }
+  //if not adopted but not in front of the array, return 'available after first is adopted'
+  else {
+    adoptionStatus = `Not currently available (not first in line for adoption)`;
+    color = 'orange';
+  }
+ 
   
       return (
         <>
@@ -73,11 +99,15 @@ export default class adoptCat extends Component {
                     <button className='AdoptMain__button' onClick={() => this.changeIndex(-1)}><i className="fas fa-chevron-left"></i></button>
                   )}{' '}
                 <img src={currPet.imageURL} alt={currPet.imageDescription} className='AdoptMain__img'></img>
+                
                 <button className='AdoptMain__button' onClick={() => this.changeIndex(1)}><i className="fas fa-chevron-right"></i></button>
               </div>
             <h3>{currPet.name}</h3>
 							<ul>
-                
+              <li>
+									<span className=''>Adoption Status:</span>{" "}
+									<span className={color}>{adoptionStatus}</span>
+								</li>
                 <li><span className='bold'>Sex:</span> {currPet.sex}</li>
 								<li><span className='bold'>Age:</span> {currPet.age}</li>
 								<li><span className='bold'>Breed:</span> {currPet.breed}</li>
@@ -86,7 +116,7 @@ export default class adoptCat extends Component {
               </div>
               <div className='AdoptMain__div lineInfo'>
               <Line />
-              <AdoptMain/>
+              {/* <AdoptMain/> */}
 						</div>
             </div>
           </div>
