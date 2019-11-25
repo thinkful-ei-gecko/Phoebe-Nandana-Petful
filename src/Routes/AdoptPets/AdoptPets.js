@@ -68,15 +68,17 @@ export default class adoptCat extends Component {
   //  const dogsList = this.context.dogsList || [];
   //   console.log(dogsList)
   let currPet =petList[index] ||{};
+  let length = this.context.humanList.length || 0
   console.log(this.context.humanList.length)
   let adoptionStatus;  let color;
-  if (this.context.humanList.length === 1) {
+  if (length === 1) {
     clearInterval(this.interval);
   }
   //if not adopted and front of the array, return 'available'
   if (index === 0) {
     adoptionStatus = "Available";
     color = 'green';
+    
   }
   //if not adopted but not in front of the array, return 'available after first is adopted'
   else {
