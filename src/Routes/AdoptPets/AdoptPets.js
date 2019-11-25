@@ -104,7 +104,7 @@ export default class adoptCat extends Component {
                 
                 <button className='AdoptMain__button' onClick={() => this.changeIndex(1)}><i className="fas fa-chevron-right"></i></button>
               </div>
-            <h3>{currPet.name}</h3>
+            <h3>{(length === 1) ? `Congratulations on your new pet, ${currPet.name}!` : currPet.name}</h3>
 							<ul>
               <li>
 									<span className=''>Adoption Status:</span>{" "}
