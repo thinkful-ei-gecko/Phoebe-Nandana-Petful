@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-import adoptApiService from '../../Services/adopt-api-service'
-=======
->>>>>>> working_branch
 import ApiContext from '../../Contexts/ApiContext'
 import ApiService from '../../Services/api-service'
 import './SignupMain.css'
@@ -13,12 +9,6 @@ export default class SignupMain extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const {adopterName} = e.target
-<<<<<<< HEAD
-		adoptApiService.postAdopters(adopterName.value).then(res => this.context.enqueueAdopter(res));
-		this.props.history.push(`/adopt/${this.state.petType}`)
-	}
-
-=======
 		ApiService.getAdopters()
       .then(res =>this.context.setHumanList(res))
 		ApiService.postAdopterName(adopterName.value)
@@ -32,7 +22,6 @@ export default class SignupMain extends Component {
 
 
 
->>>>>>> working_branch
 	render = () => {
 		
 		return (
