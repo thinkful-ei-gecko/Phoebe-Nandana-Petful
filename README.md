@@ -3,7 +3,7 @@
 ## Links
 - [Live App](https://petful.shiningjustice.now.sh)
 - [Deployed Server](https://ancient-everglades-87501.herokuapp.com/api)
-- [Server Repo](https://github.com/thinkful-ei-gecko/)
+- [Server Repo](https://github.com/thinkful-ei-gecko/Phoebe-Nandana-Petful-Server)
 
 ## Views 
 
