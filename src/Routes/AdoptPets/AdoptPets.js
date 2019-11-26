@@ -71,15 +71,37 @@ export default class adoptCat extends Component {
 			clearInterval(this.interval);
 		}
 		//if not adopted and front of the array, return 'available'
-		if (index === 0) {
+		if (index === 0 && length === 0) {
 			adoptionStatus = "Available";
 			color = "green";
 		}
 		//if not adopted but not in front of the array, return 'available after first is adopted'
-		else {
+    else if (!currPet.adopted && index !== 0) {
 			adoptionStatus = `Not currently available (not first in line for adoption)`;
 			color = "orange";
-		}
+    }
+    //else if already adopted
+    else {
+			adoptionStatus = `Not currently available (not first in line for adoption)`;
+			color = "orange";
+    }
+    
+    // if you can reset the dynos, use the following: 
+    // 		//Return available if it's your turn and you're looking at the first in the line 
+		// if (!currPet.adopted && length === 1 && index === 0) {
+		// 	adoptionStatus = "Available";
+		// 	color = "green";
+		// }
+		// //return 'available after first is adopted' if not adopted but not first in line
+    // else if (!currPet.adopted && index !== 0) {
+		// 	adoptionStatus = `Not currently available (not first in line for adoption)`;
+		// 	color = "orange";
+    // }
+    // //else if already adopted
+    // else {
+		// 	adoptionStatus = `Not available (in the process of being adopted`;
+		// 	color = "red";
+		// }
 
 		return (
 			<>
@@ -114,7 +136,7 @@ export default class adoptCat extends Component {
 								</button>
 							</div>
 							<h3>
-								{length === 1
+								{(length === 1 && index === 0)
 									? `Congratulations on your new pet, ${currPet.name}!`
 									: currPet.name}
 							</h3>
